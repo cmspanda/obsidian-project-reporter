@@ -1,6 +1,6 @@
 {
   "name": "@cms-panda/obsidian-project-reporter",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "A simple utility to report on all obisidan files within an Obsidian vault that are part of the Obsidian Projects plugin that utilize YAML formatting.",
   "main": "index.js",
   "type": "module",
