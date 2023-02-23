@@ -1,0 +1,31 @@
+{
+  "name": "@cms-panda/obsidian-project-reporter",
+  "version": "0.1.0",
+  "description": "A simple utility to report on all obisidan files within an Obsidian vault that are part of the Obsidian Projects plugin that utilize YAML formatting.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Douglas Ross",
+  "license": "ISC",
+  "dependencies": {
+    "@json2csv/plainjs": "^6.1.2",
+    "csv-to-markdown-table": "^1.3.0",
+    "yaml": "^2.2.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cmspanda/obsidian-project-reporter.git"
+  },
+  "keywords": [
+    "Obsidian",
+    "Project",
+    "Git"
+  ],
+  "bugs": {
+    "url": "https://github.com/cmspanda/obsidian-project-reporter/issues"
+  },
+  "homepage": "https://github.com/cmspanda/obsidian-project-reporter#readme"
+}
