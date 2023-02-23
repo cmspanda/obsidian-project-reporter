@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import fs from 'fs/promises';
+import fs, { opendir } from 'fs/promises';
 import path from 'path';
 import { parseAllDocuments } from 'yaml';
 import { Parser as JsonToCsv } from '@json2csv/plainjs';
@@ -26,10 +26,8 @@ let parseFolder = async (allRecords, folder) => {
             }
         }
     } catch (err) {
-        console.log(`\n--ERROR: ---------`);
-        console.log(`Processing: ${folder}`)
+        console.log(`ERROR while processing: ${folder}`)
         console.log(err);
-        console.log(`\n--ERROR: ---------`);
     }
 }
 
@@ -60,9 +58,17 @@ let parseFile = async (fileName) => {
 }
 
 let saveMarkdownTable = async (arr, output) => {
-    const p = new JsonToCsv({});
     
+    const p = new JsonToCsv({});
     let tableMarkdown = CsvToMarkdown(p.parse(arr),",",true);
+    let filePath = output.substring(0, output.lastIndexOf(path.sep));
+
+    try {
+        await opendir(filePath);
+    } catch (err) {
+        console.log(`Directory doesn't exist, creating new dir at ${filePath}`);
+        await fs.mkdir(filePath, { recursive: true });    
+    }
 
     await fs.writeFile(output, tableMarkdown);
 }
