@@ -3,8 +3,7 @@
 import fs, { opendir } from 'fs/promises';
 import path from 'path';
 import { parseAllDocuments } from 'yaml';
-import { Parser as JsonToCsv } from '@json2csv/plainjs';
-import CsvToMarkdown from 'csv-to-markdown-table';
+import { generateTable, generateDashboard } from './converters/ArrayToMarkdown.js';
 
 // TODO: Create Regex to get parent and up to sub-projects (check Arnimus for example);
 const FOLDER_REGEX = /[\w\s]+\/[^\\]+\.[\w]{0,5}$/;
@@ -57,10 +56,8 @@ let parseFile = async (fileName) => {
     return record;
 }
 
-let saveMarkdownTable = async (arr, output) => {
+let saveMarkdownTable = async (output, contents) => {
     
-    const p = new JsonToCsv({});
-    let tableMarkdown = CsvToMarkdown(p.parse(arr),",",true);
     let filePath = output.substring(0, output.lastIndexOf(path.sep));
 
     try {
@@ -70,9 +67,14 @@ let saveMarkdownTable = async (arr, output) => {
         await fs.mkdir(filePath, { recursive: true });    
     }
 
-    await fs.writeFile(output, tableMarkdown);
+    await fs.writeFile(output, contents);
 }
 
+console.dir(args);
+
 await parseFolder(allRecords, args[0]); 
-await saveMarkdownTable(allRecords, args[1]);
+let dashboardmarkup = await generateDashboard(allRecords);
+
+await saveMarkdownTable(args[1], `# PROJECT DASHBOARD \n\n${dashboardmarkup}`);
+
 
